@@ -1,0 +1,24 @@
+# Core server & MCP microservices
+fastmcp>=0.2.0
+starlette>=0.31.1
+uvicorn[standard]>=0.23.0
+requests>=2.31.0
+
+# Flask backend
+flask>=2.3.2
+
+# For TOML config file parsing
+toml>=0.10.2
+
+# For parsing news feeds
+feedparser>=6.0.10
+
+# For web content extraction (fetch_mcp)
+readability-lxml>=0.8.1
+markdownify>=0.11.6
+
+# Optionally if you want to use gunicorn in prod (not required for dev)
+# gunicorn>=21.2.0
+
+# If you use python-dotenv for env config (optional but useful)
+# python-dotenv>=1.0.0

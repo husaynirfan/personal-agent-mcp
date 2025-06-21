@@ -1,0 +1,15 @@
+# --- Custom Application Settings ---
+[tool.app.settings]
+api_endpoint = "http://localhost:1234/v1/chat/completions"
+model_name = "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF"
+
+# URLs for the tool servers
+weather_mcp_url = "http://localhost:8002/mcp/"
+news_mcp_url = "http://localhost:8003/mcp/"
+fetch_mcp_url = "http://localhost:8000/mcp/"
+x_post_mcp_url = "http://localhost:8004/mcp/"
+pc_mcp_url = "http://localhost:8005/mcp/"
+pc_secret   = "ChangeThisNow"    
+
+# API Keys
+weather_api_key = "1f30089161907a3c7c4ea5d8a1f3b505"

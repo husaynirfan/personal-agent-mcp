@@ -1,0 +1,44 @@
+2025-06-21 17:04:54,805 | INFO | StreamableHTTP session manager started
+2025-06-21 17:05:11,881 | INFO | POST /mcp/ -> 200
+2025-06-21 17:05:11,882 | INFO | Processing request of type CallToolRequest
+2025-06-21 17:05:12,392 | INFO | system_info called
+2025-06-21 17:05:44,650 | INFO | POST /mcp/ -> 200
+2025-06-21 17:05:44,651 | INFO | Processing request of type CallToolRequest
+2025-06-21 17:05:45,161 | INFO | system_info called
+2025-06-21 17:07:32,885 | INFO | POST /mcp/ -> 200
+2025-06-21 17:07:32,886 | INFO | Processing request of type CallToolRequest
+2025-06-21 17:07:32,891 | ERROR | Error calling tool 'run_command': [WinError 2] The system cannot find the file specified
+Traceback (most recent call last):
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\site-packages\fastmcp\tools\tool_manager.py", line 131, in call_tool
+    return await tool.run(arguments)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\site-packages\fastmcp\tools\tool.py", line 185, in run
+    result = type_adapter.validate_python(arguments)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\site-packages\pydantic\type_adapter.py", line 421, in validate_python
+    return self.validator.validate_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\OneDrive\Documents\gemini-clone\pc_mcp.py", line 60, in run_command
+    out = _run_subprocess(cmd)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\OneDrive\Documents\gemini-clone\pc_mcp.py", line 38, in _run_subprocess
+    out = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=timeout, text=True, shell=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\User\.conda\envs\gemini-clone\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+2025-06-21 17:08:01,109 | INFO | POST /mcp/ -> 200
+2025-06-21 17:08:01,110 | INFO | Processing request of type CallToolRequest
+2025-06-21 17:08:01,619 | INFO | system_info called
+2025-06-21 19:10:24,838 | INFO | POST /mcp/ -> 200
+2025-06-21 19:10:24,842 | INFO | Processing request of type CallToolRequest
+2025-06-21 19:10:25,354 | INFO | system_info called

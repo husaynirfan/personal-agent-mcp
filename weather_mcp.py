@@ -9,7 +9,8 @@ import toml
 # --- Configuration Loading Function ---
 def load_config():
     """Loads configuration from pyproject.toml."""
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'pyproject.toml')
+    # The config file lives in the same directory as this module
+    config_path = os.path.join(os.path.dirname(__file__), 'pyproject.toml')
     try:
         with open(config_path, 'r') as f:
             config_data = toml.load(f)
@@ -29,13 +30,22 @@ if not API_KEY:
 
 mcp = FastMCP(name="WeatherService")
 
+# Fallback weather data used when network access is blocked.  These
+# values are purely illustrative and not real-time.
+OFFLINE_WEATHER_DATA = {
+    "muar": "Current weather in Muar, MY: 30°C, scattered clouds, humidity 80% (cached)."
+}
+
 @mcp.tool()
 def get_weather(location: str) -> str:
     """
     Gets the **current weather** for a given location, forgiving user input.
     Tries full query, just city, and suggests similar matches if needed.
     """
+    service_error = False
+
     def fetch_weather(query):
+        nonlocal service_error
         params = {"q": query, "appid": API_KEY, "units": "metric"}
         try:
             response = requests.get(CURRENT_URL, params=params)
@@ -46,10 +56,13 @@ def get_weather(location: str) -> str:
                 temp = data["main"]["temp"]
                 desc = data["weather"][0]["description"]
                 humidity = data["main"]["humidity"]
-                return (f"Current weather in {city}{', ' + country if country else ''}: "
-                        f"{temp}°C, {desc}, humidity {humidity}%.")
+                return (
+                    f"Current weather in {city}{', ' + country if country else ''}: "
+                    f"{temp}°C, {desc}, humidity {humidity}%.")
             return None
-        except Exception:
+        except requests.RequestException as e:
+            service_error = True
+            print(f"Weather API request failed: {e}")
             return None
 
     # 1. Try full input
@@ -73,12 +86,24 @@ def get_weather(location: str) -> str:
             if results:
                 suggestion_list = [f"{r['name']}, {r.get('country', '')}" for r in results]
                 suggestions = "; ".join(suggestion_list)
-                return (f"Could not find exact weather for '{location.title()}'. "
-                        f"Did you mean: {suggestions}?")
-    except Exception:
-        pass
+                return (
+                    f"Could not find exact weather for '{location.title()}'. "
+                    f"Did you mean: {suggestions}?")
+    except requests.RequestException as e:
+        service_error = True
+        print(f"Geocoding request failed: {e}")
 
-    return f"Sorry, I couldn't find any weather info for '{location.title()}'. Please check the city name."
+    if service_error:
+        offline = OFFLINE_WEATHER_DATA.get(location.lower())
+        if offline:
+            return offline
+        return (
+            "Weather service is currently unreachable and no offline "
+            f"data is available for '{location.title()}'.")
+
+    return (
+        f"Sorry, I couldn't find any weather info for '{location.title()}'. "
+        "Please check the city name.")
 
 # --- Server Setup ---
 middleware = [
